@@ -3,9 +3,9 @@ Crafty.scene("level05",function(){
 	Crafty.audio.play("theme05", -1, 1, 40.1);
 		
 	var particlesOptions = {
-	    maxParticles: 200,
-	    size: 5,
-	    sizeRandom: 4,
+	    maxParticles: 50,
+	    size: 3,
+	    sizeRandom: 3,
 	    speed: .1,
 	    speedRandom: .3,
 	    lifeSpan: 70,
@@ -16,13 +16,11 @@ Crafty.scene("level05",function(){
 	    startColourRandom: [60, 60, 60, .2],
 	    endColour: [0, 255, 255, 0],
 	    endColourRandom: [60, 60, 60, .2],
-	    sharpness: 20,
-	    sharpnessRandom: 10,
 	    spread: Crafty.viewport.width,
 	    duration: -1,
-	    fastMode: false,
+	    fastMode: true,
 	    gravity: { x: -0.05, y: 0.1 },
-	    jitter: 3
+	    jitter: 3,
 	};
 
 	sc.player = new Amianto05(),
@@ -85,6 +83,8 @@ Crafty.scene("level05",function(){
 	];
 	
 	this.one("LevelTransition", function(){
+		if(infc.keys)
+			_.each(infc.keys,function(k){ k.visible = false; });
 		Crafty.audio.stop("theme05");
 		Crafty.audio.play("shiwsish");
 		Crafty("DanceFloor, Shine").each(function(){

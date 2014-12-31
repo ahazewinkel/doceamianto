@@ -109,26 +109,26 @@ Crafty.scene("level04", function() {
 		_.each(this._layerArray[2].tiles, function(t){ t.z = playerEnt._z + 2 });
 		
 		Crafty("upStairs").each(function() {
-			this.collision(new Crafty.polygon([[0,31],[31,0]]));
+			this.collision(new Crafty.polygon([0,31,31,0]));
 		});
 		Crafty("downStairs").each(function() {
-			this.collision(new Crafty.polygon([[0,0],[31,31]]));
+			this.collision(new Crafty.polygon([0,0,31,31]));
 		});
 		Crafty("leftWall").each(function() {
 			if(this.__c.top)
-				this.collision(new Crafty.polygon([[24,4],[24,31]]));
+				this.collision(new Crafty.polygon([24,4,24,31]));
 			else
-				this.collision(new Crafty.polygon([[24,0],[24,31]]));
+				this.collision(new Crafty.polygon([24,0,24,31]));
 		      
 		});
 		Crafty("rightWall").each(function() {
 			if(this.__c.top)
-				this.collision(new Crafty.polygon([[8,4],[8,31]]));
+				this.collision(new Crafty.polygon([8,4,8,31]));
 			else
-				this.collision(new Crafty.polygon([[8,0],[8,31]]));
+				this.collision(new Crafty.polygon([8,0,8,31]));
 		});
 		Crafty("grnd mud").each(function() {
-			this.collision(new Crafty.polygon([[0,8],[31,8]]))
+			this.collision(new Crafty.polygon([0,8,31,8]))
 			    .z = playerEnt._z + 1;
 		});
 		Crafty("watersplash").each(function(){ 
@@ -196,6 +196,8 @@ Crafty.scene("level04", function() {
 	
 	this.one("BossFight", function(){
 		stopParallax();
+		if(infc.keys)
+			_.each(infc.keys,function(k){ k.visible = false; });
 		
 		Crafty.audio.play("phantomboss", -1, 0.1, 10.35);
 		utils.fadeSound("theme04", 0, Crafty.timer.FPS());
@@ -215,6 +217,8 @@ Crafty.scene("level04", function() {
 		
 		this.one("BadassPhantomFinishedTransforming", function(){
 			this.one("CameraAnimationDone", function(){
+				if(infc.keys)
+					_.each(infc.keys,function(k){ k.visible = true; });
 				this.viewport.follow(playerEnt, 0, 0);
 				playerEnt.enableControl();	
 			});

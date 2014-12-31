@@ -143,7 +143,7 @@ Amianto05 = BaseEntity.extend({
 				break;
 			  }
 		      })
-		    .collision(new Crafty.polygon([[32,45],[55,45],[55,124],[32,124]]))
+		    .collision(new Crafty.polygon([32,45,55,45,55,124,32,124]))
 		model.set({'entity' : entity});
 		    
 	}

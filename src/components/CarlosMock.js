@@ -3,7 +3,7 @@ Crafty.c("CarlosMock",{
 		this.requires("2D,"+gameContainer.conf.get('renderType')+", SpriteAnimation, carlos, Gravity, Tween, Collision, Delay");
 		this.reel("Running", 500, 1, 0, 5)
 		    .reel("JumpingFalling", 500, [[2,2],[3,2],[3,2]])
-		    .collision(new Crafty.polygon([[38,15],[70,15],[70,95],[38,95]]))
+		    .collision(new Crafty.polygon([38,15,70,15,70,95,38,95]))
 		    .onHit('grnd', function(hit) {
 			for (var i = 0; i < hit.length; i++) {
 				this.y += Math.ceil(hit[i].normal.y * -hit[i].overlap),

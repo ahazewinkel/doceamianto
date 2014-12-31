@@ -5,7 +5,7 @@ Crafty.c("StepsPhantom", {
 		    .reel("Moving",500,0,0,5)
 		    .reel("Puft",500,[[0,0],[0,0],[6,0],[6,0],[0,0],[0,0],[6,0],[6,0],[0,0],[0,0],[6,0],[6,0]])
 		    .animate("Moving",-1)
-		    .collision(new Crafty.polygon([[this.w/4,0],[3*this._w/4,0],[3*this._w/4,this._h],[this._w/4,this._h]]))
+		    .collision(new Crafty.polygon([this.w/4, 0, 3*this._w/4, 0, 3*this._w/4, this._h, this._w/4, this._h]))
 		    .attr({alpha: .5, z: 300});
 		this._step = 0;
 		this._turnAt = 13;
@@ -61,6 +61,7 @@ Crafty.c("StepsPhantom", {
 		this._steps = newRail;
 		if (dirX===1)
 			this.flip("X");
+      		Crafty.audio.play("phantomrag", .8);
 		this.tween(goTo, 420)
 		    .delay(function(){ this._z += plusSteps; this.one("TweenEnd", this._nextStep); }, 175);
 	},

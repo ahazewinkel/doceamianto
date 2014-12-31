@@ -25,22 +25,22 @@ Crafty.scene("level02", function() {
 			var playerEnt = sc.player.getEntity();
 			
 			_.each(o._layerArray[1].tiles, function(obj) {
-			    obj.z = playerEnt._z + 1;
-			    obj.alpha = o._layerArray[1].opacity;
+				obj.z = playerEnt._z + 1;
+				obj.alpha = o._layerArray[1].opacity;
 			});
 		  
 			// setting collision for tiles
 			Crafty("upStairs").each(function() { 
-				this.collision(new Crafty.polygon([[0,31],[31,0]]));
+				this.collision(new Crafty.polygon([0,32,32,0]));
 			});
 			Crafty("downStairs").each(function() { 
-				this.collision(new Crafty.polygon([[0,0],[31,31]]));
+				this.collision(new Crafty.polygon([0,0,32,32]));
 			});
 			Crafty("water").each(function() { 
-				this.collision(new Crafty.polygon([[0,24],[31,24]]));
+				this.collision(new Crafty.polygon([0,24,31,24]));
 			});
 			Crafty("leftWall").each(function() { 
-				this.collision(new Crafty.polygon([[0,0],[23,0],[23,31],[0,31]]));
+				this.collision(new Crafty.polygon([0,0,23,0,23,31,0,31]));
 				this.z = playerEnt._z - 2;
 			});
 
@@ -53,7 +53,7 @@ Crafty.scene("level02", function() {
 			
 			sc.obstacles = [ 
 				new Obstacle({initialX: 13500, initialY: 1100, initialZ: playerEnt._z-1}),
-				new Obstacle({initialX: 16300, initialY: 1271, initialZ: playerEnt._z-1}),
+				//new Obstacle({initialX: 16300, initialY: 1271, initialZ: playerEnt._z-1}),
 				new Obstacle({initialX: 25337, initialY:  960, initialZ: playerEnt._z-1}),
 				new Obstacle({initialX: 25785, initialY:  960, initialZ: playerEnt._z-1})
 			];
@@ -65,7 +65,6 @@ Crafty.scene("level02", function() {
 			Crafty.e("Delimiter, wall").attr({ x: 435, y: 1275, w: 2, h: 180 }), 
 			Crafty.e("Delimiter, wall").attr({ x: 37869, y: 1275, w: 2, h: 180 })
 		];
-		
 
 		//<checkpoints>
 		var checkPointsMap = {
@@ -92,6 +91,8 @@ Crafty.scene("level02", function() {
 		// events' declarations
 		
 		this.one('AmiantoReachedLightArea', function() {
+			if(infc.keys)
+				_.each(infc.keys,function(k){ k.visible = false; });
 			var playerEnt = sc.player.getEntity();
 			Crafty.audio.play("ohthelight",1,0.1);
 			utils.fadeSound("theme02", 0, 35);
@@ -114,50 +115,50 @@ Crafty.scene("level02", function() {
 					screenPos.y = ((finalAmiantoAttr.y - Crafty.viewport.height / 2) + finalAmiantoAttr.h/2);
 				
 					sc.explosion = Crafty.e("2D, " + gameContainer.conf.get('renderType') + ", colorExplosion, SpriteAnimation")
-							.attr({ 
-								x: screenPos.x,
-								y: screenPos.y,
-								w: Crafty.viewport.width,
-								h: Crafty.viewport.height,
-								z: finalAmiantoAttr.z+4
-							})
-							.reel("colorxplosion",5000,[
-								[0,0],[1,0],[2,0],[3,0],[4,0],
-								[5,0],[6,0],[7,0],[8,0],[9,0],[10,0],[11,0],
-								[5,0],[6,0],[7,0],[8,0],[9,0],[10,0],[11,0],
-								[5,0],[6,0],[7,0],[8,0],[9,0],[10,0],[11,0],
-								[5,0],[6,0],[7,0],[8,0],[12,0],[13,0],[14,0]
-							]);
+					    .attr({ 
+						    x: screenPos.x,
+						    y: screenPos.y,
+						    w: Crafty.viewport.width,
+						    h: Crafty.viewport.height,
+						    z: finalAmiantoAttr.z+4
+					    })
+					    .reel("colorxplosion",5000,[
+						    [0,0],[1,0],[2,0],[3,0],[4,0],
+						    [5,0],[6,0],[7,0],[8,0],[9,0],[10,0],[11,0],
+						    [5,0],[6,0],[7,0],[8,0],[9,0],[10,0],[11,0],
+						    [5,0],[6,0],[7,0],[8,0],[9,0],[10,0],[11,0],
+						    [5,0],[6,0],[7,0],[8,0],[12,0],[13,0],[14,0]
+					    ]);
 					
 					sc.explosion
-						.animate("colorxplosion")
-						.bind("AnimationEnd", function(){
-							this.destroy();
-						})
-						.bind("FrameChange", function create_white_layer(obj){
-							if(obj.currentFrame==5){
-								this.unbind("FrameChange", create_white_layer);
-								sc.coloredLayer = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", Color")
-									.attr({
-										x: screenPos.x,
-										y: screenPos.y,
-										w: Crafty.viewport.width, 
-										h: Crafty.viewport.height, 
-										z: finalAmiantoAttr.z+3, 
-										alpha: 1.0 
-									})
-									.color("#FFFFFF");
-							}
-						});
+					    .animate("colorxplosion")
+					    .bind("AnimationEnd", function(){
+						    this.destroy();
+					    })
+					    .bind("FrameChange", function create_white_layer(obj){
+						if(obj.currentFrame==5){
+							this.unbind("FrameChange", create_white_layer);
+							sc.coloredLayer = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", Color")
+								.attr({
+									x: screenPos.x,
+									y: screenPos.y,
+									w: Crafty.viewport.width, 
+									h: Crafty.viewport.height, 
+									z: finalAmiantoAttr.z+3, 
+									alpha: 1.0 
+								})
+								.color("#FFFFFF");
+						}
+					    });
 						
 					var amiantoToBlancheOptions = {
-						initialX: finalAmiantoAttr.x-80,
-						initialY: finalAmiantoAttr.y-30,
-						initialZ: finalAmiantoAttr.z+5,
-						finalY: finalAmiantoAttr.y-300,
-						finalX: finalAmiantoAttr.x+600,
-						//finalZ: finalAmiantoAttr.z+100,
-						flightTime: 3000
+					    initialX: finalAmiantoAttr.x-80,
+					    initialY: finalAmiantoAttr.y-30,
+					    initialZ: finalAmiantoAttr.z+5,
+					    finalY: finalAmiantoAttr.y-300,
+					    finalX: finalAmiantoAttr.x+600,
+					    //finalZ: finalAmiantoAttr.z+100,
+					    flightTime: 3000
 					};
 					sc.amiantoToBlanche = new AmiantoToBlanche(amiantoToBlancheOptions);
 					sc.amiantoToBlanche.turnToBlanche();

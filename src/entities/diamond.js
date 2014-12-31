@@ -25,7 +25,7 @@ Diamond = BaseEntity.extend({
     grow: function(to) {
 	    var ent = this.getEntity();
 	    if(to > ent.value) {
-		    Crafty.audio.play("diamondgrow");
+		    Crafty.audio.play("diamondgrow", .8);
 		    ent.removeComponent("diamond" + ent.value.toString()).addComponent("diamond" + to.toString());
 		    ent.value = to;
 		    Crafty.trigger("DiamondGrew", to);

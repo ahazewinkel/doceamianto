@@ -499,6 +499,16 @@ Resources = Backbone.Model.extend({
 					'kiss2.ogg',
 					'kiss2.aac',
 					'kiss2.mp3',
+				],
+				'credits': [
+					'credits.ogg',
+					'credits.aac',
+					'credits.mp3',
+				],
+				'creditsfireworks': [
+					'creditsfireworks.ogg',
+					'creditsfireworks.aac',
+					'creditsfireworks.mp3',
 				]
 			}
 		}

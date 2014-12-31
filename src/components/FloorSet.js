@@ -10,9 +10,11 @@ Crafty.c("FloorSet", {
 		this.bind("DanceFloorSteppedOver", function(tI){
 			if(!this._currentTile || this._currentTile.obj.floorIndex != tI || this._teleporting){
 				if(!this._currentTile)
-					this.currentFloor(0);  
-				this.activateFloor(tI)
-				    .revealFloor();
+					this.currentFloor(0);
+				try{
+					this.activateFloor(tI)
+					    .revealFloor();
+				} catch(e) { };
 				if(this._teleporting)
 					this._teleporting = false;
 			}

@@ -31,8 +31,8 @@ Wordblock = BaseEntity.extend({
 			.delay(function(){
 				this.textColor("#FFFFFF");
 			},75,-1)
-			.collision(new Crafty.polygon([[0,0],[entity._w,0],
-			    [entity._w,entity._h-(entity._h/5)],[0,entity._h-(entity._h/5)]]));
+			.collision(new Crafty.polygon([0,0,entity._w,0,
+			    entity._w,entity._h-(entity._h/5),0,entity._h-(entity._h/5)]));
 			
 		model.set({'entity' : entity });
 	}

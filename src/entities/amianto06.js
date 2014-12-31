@@ -16,7 +16,7 @@ Amianto06 = BaseEntity.extend({
 		entity
 			.attr({x: POSX, y: POSY, z: POSZ, w:WIDTH, h:HEIGHT })
 			.twowayer(SPEED, SPEED*2, ['RIGHT_ARROW','LEFT_ARROW','UP_ARROW'])
-			.collision(new Crafty.polygon([[33,25], [WIDTH-33,25], [WIDTH-33,(HEIGHT-25)/2], [WIDTH-72,HEIGHT-25], [33, (HEIGHT-25)/2]]))
+			.collision(new Crafty.polygon([33,25, WIDTH-33,25, WIDTH-33,(HEIGHT-25)/2, WIDTH-72,HEIGHT-25, 33, (HEIGHT-25)/2]))
 			.onHit('Delimiter', function(hit) {
 				for (var i = 0; i < hit.length; i++) {
 					var hitDirX = Math.round(hit[i].normal.x);
@@ -36,7 +36,7 @@ Amianto06 = BaseEntity.extend({
 					if(!this._up && hit[i].obj._y > this._y + this._h/2 && hit[i].obj._y < this._y + this._h - this._h/4) {
 						var luv = model.get('love');
 						if(hit[i].obj.__c.darkHeart) {
-							Crafty.audio.play("hitdarkheart");
+							Crafty.audio.play("hitdarkheart",.8);
 							if(luv > model.get('minLove')){
 								model.set({ 'love' : --luv });
 							}
@@ -51,7 +51,7 @@ Amianto06 = BaseEntity.extend({
 								});
 						} else 
 						if(hit[i].obj.__c.redHeart) {
-							Crafty.audio.play("hitredheart");
+							Crafty.audio.play("hitredheart",.8);
 							model.set({ 'love' : ++luv });
 							hit[i].obj.destroy();
 							if(luv < model.get('maxLove')) {

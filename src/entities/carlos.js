@@ -7,22 +7,30 @@ Carlos = BaseEntity.extend({
 	  'height' : 105,
 	  'health' : 5,
 	  'kills': 0,
-	  'currentCheckpoint' : null
+	  'currentCheckpoint' : null,
+	  'keyDirection' : {
+	      LEFT_ARROW: 180,
+	      RIGHT_ARROW: 0,
+	      A: 180,
+	      D: 0,
+	      Q: 180
+	  },
+	  'keys': ['LEFT_ARROW','UP_ARROW','RIGHT_ARROW','SPACE']
 	},
 	initialize: function() {
 		var model = this,
 		entity = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", CustomControls, Collision, SpriteAnimation, Tween, carlos")
-			.attr({ 
-				x: model.get('startingPoint').x, 
-				y: model.get('startingPoint').y, 
-				w: model.get('width'), 
-				h: model.get('height'), 
-				z: 301,
-				canShoot: true
-			});
+		    .attr({ 
+			    x: model.get('startingPoint').x, 
+			    y: model.get('startingPoint').y, 
+			    w: model.get('width'), 
+			    h: model.get('height'), 
+			    z: 301,
+			    canShoot: true
+		    });
 		
 		entity
-		    .twowayer(model.get('speed'),model.get('speed')+(model.get('speed')/2), ['LEFT_ARROW','UP_ARROW','RIGHT_ARROW','SPACE'])
+		    .twowayer(model.get('speed'),model.get('speed')+(model.get('speed')/2), model.get('keys'))
 		    .reel("StandingStill", 50, [[0,0],[0,0]])
 		    .reel("Running", 500, 1, 0, 5)
 		    .reel("Shooting", 500, 0, 1, 6)
@@ -55,19 +63,28 @@ Carlos = BaseEntity.extend({
 						  ((this.isDown("UP_ARROW") || this.isDown("W")) && this._falling)) 
 							this._up = false;
 						
-						//if((justHit && (!this._up || this._falling)) || this._onStairs)
-							this.y += Math.ceil(hit[i].normal.y * -hit[i].overlap);
+						this.y += Math.ceil(hit[i].normal.y * -hit[i].overlap);
 						
 						if(this._falling) 
 							this._falling = false;
-						
+						var newSpeed;
 						if (hit[i].obj.__c.mud && speed == startingSpeed)
-							model._setSpeed(1,true)
+							newSpeed = 1;
 						else if (speed != startingSpeed && !hit[i].obj.__c.mud)
-							model._setSpeed(startingSpeed,true);
-						
+							newSpeed = startingSpeed;
+						if (newSpeed) {
+							var keys = model.get('keyDirection');
+							this._movement.x = 0;
+							this.speed({ x: newSpeed , y: 0 });
+							for(var k in keys)
+								if(this.isDown(k)){
+									this._keydown({ key: Crafty.keys[k] });
+								}
+							// jump speed
+							this._jumpSpeed = newSpeed + newSpeed/2;
+							model.set({ 'speed' : newSpeed });
+						}
 						return;
-						
 					}
 				}
 			}
@@ -81,69 +98,105 @@ Carlos = BaseEntity.extend({
 			    this._blocked = false;
 			})
 		    .onHit('stairs', function(hit) {
-			    var justHit = false,
-				speed = model.get('speed'),
-				isfalling = ((this._currentReelId == "JumpingFalling" || 
-					this._currentReelId == "JumpingUp") && this._falling);
+			var justHit = false,
+			    speed = model.get('speed'),
+			    isfalling = ((this._currentReelId == "JumpingFalling" || 
+				    this._currentReelId == "JumpingUp") && this._falling);
+			
+			if(isfalling || this._currentReelId == "Running")
+				justHit = true;
 			    
-			    if(isfalling || this._currentReelId == "Running")
-				    justHit = true;
+			for (var i = 0; i < hit.length; i++) {
+				var actualStairs = (hit[i].obj.__c.upStairs || hit[i].obj.__c.downStairs);
 				
-			    for (var i = 0; i < hit.length; i++) {
-				    var actualStairs = (hit[i].obj.__c.upStairs || hit[i].obj.__c.downStairs);
-				    
-				    if(isfalling && actualStairs)
-					    this.animate("StandingStill", -1);
-				    
-				    if(justHit)
-					    if(hit[i].obj.__c.upStairs || hit[i].obj.__c.upStairsFirstStepDown) {
-						    speed = speed^2===0?speed:speed-1;
-						    this.multiway(speed/2, {
-							    LEFT_ARROW: 135,
-							    RIGHT_ARROW: 0,
-							    A: 135,
-							    D: 0,
-							    Q: 135
-						    });
-						    this._onStairs = true;
-						    this._onUpStairs = true;
-					    }
-					    else
-					    if(hit[i].obj.__c.downStairs || hit[i].obj.__c.downStairsFirstStepDown) {
-						    speed = speed^2===0?speed:speed-1;
-						    this.multiway(speed/2, {
-							    LEFT_ARROW: 180,
-							    RIGHT_ARROW: 45,
-							    A: 180,
-							    D: 45,
-							    Q: 180
-						    });
-						    this._onStairs = true;
-						    this._onDownStairs = true;
-					    }
-				    
-				    if(justHit && this._up && actualStairs) 
-					    this._up = false;
-				    
-				    if(!this._up && justHit && actualStairs)
-					    this.y += Math.ceil(hit[i].normal.y * -hit[i].overlap),
-					    this.x += Math.ceil(hit[i].normal.x * -hit[i].overlap),
-					    justHit = false;
-				    
-				    if(this._falling && actualStairs) 
-					    this._falling = false;
-			    }
-		      }, function() {
-			    this.multiway(model.get('speed'), {
-				    LEFT_ARROW: 180,
-				    RIGHT_ARROW: 0,
-				    A: 180,
-				    D: 0,
-				    Q: 180
-			    });
-			    this._onStairs = false;
-			    this._onUpStairs = false;
-			    this._onDownStairs = false;
+				if(isfalling && actualStairs)
+					this.animate("StandingStill", -1);
+				  
+				if(justHit && model.get('keyDirection') == this._keyDirection)
+					if(hit[i].obj.__c.upStairs || hit[i].obj.__c.upStairsFirstStepDown) {
+						speed = speed^2===0?speed:speed-1;
+						speed = speed/2;
+						var keys = {
+							LEFT_ARROW: 135,
+							RIGHT_ARROW: 0,
+							A: 135,
+							D: 0,
+							Q: 135
+						};
+						//this.multiway(speed/2, keysDirections);
+						for(var k in keys)
+							if(this.isDown(k)){
+								this._movement.x = 0;
+							}
+						this._keyDirection = keys;
+						this.speed({ x: speed, y: 0 });
+						//this._initializeControl();
+						for(var k in keys)
+							if(this.isDown(k)){
+								this._keydown({ key: Crafty.keys[k] });
+							}
+						this._onStairs = true;
+						this._onUpStairs = true;
+						//this._initInfcKeys(model.get('keys'));
+					}
+					else
+					if(hit[i].obj.__c.downStairs || hit[i].obj.__c.downStairsFirstStepDown) {
+						speed = speed^2===0?speed:speed-1;
+						speed = speed/2;
+						var keys = {
+							LEFT_ARROW: 180,
+							RIGHT_ARROW: 45,
+							A: 180,
+							D: 45,
+							Q: 180
+						};
+						//this.multiway(speed/2, keysDirections);
+						for(var k in keys)
+							if(this.isDown(k)){
+								this._movement.x = 0;
+							}
+						this._keyDirection = keys;
+						this.speed({ x: speed, y: 0 });
+						//this._initializeControl();
+						for(var k in keys)
+							if(this.isDown(k)){
+								this._keydown({ key: Crafty.keys[k] });
+							}
+						this._onStairs = true;
+						this._onDownStairs = true;
+						//this._initInfcKeys(model.get('keys'));
+					}
+					
+				if(justHit && this._up && actualStairs) 
+					this._up = false;
+				
+				if(!this._up && justHit && actualStairs)
+					this.y += Math.ceil(hit[i].normal.y * -hit[i].overlap),
+					justHit = false;
+				
+				if(this._falling && actualStairs) 
+					this._falling = false;
+			}
+		    }, function() {
+			if (!this.hit('stairs')) {
+				var keys = model.get('keyDirection'), 
+				    speed = model.get('speed');
+				//this.multiway(model.get('speed'), keys);
+				for(var k in keys)
+					if(this.isDown(k))
+						this._movement.x = 0;
+				this._keyDirection = keys;
+				this.speed({ x: speed, y: 0 });
+				//this._initializeControl();
+				for(var k in keys)
+					if(this.isDown(k)){
+						this._keydown({ key: Crafty.keys[k] });
+					}
+				this._onStairs = false;
+				this._onUpStairs = false;
+				this._onDownStairs = false;
+			}
+			//this._initInfcKeys(model.get('keys'));
 		    })
 		    .onHit('checkpoint', function(hit){
 			var cc = model.get("currentCheckpoint");
@@ -288,55 +341,9 @@ Carlos = BaseEntity.extend({
 			    ._dead = true;
 			model.set({ 'health': 0 });
 		    })
-		    .collision(new Crafty.polygon([[38,15],[70,15],[70,75],[60,95],[55,95],[38,75]]));
+		    .collision(new Crafty.polygon([38,15,70,15,70,75,60,95,55,95,38,75]));
 		model.set({'entity' : entity});
 		    
-	},	
-	
-	/* _setDir : set speed and keys' directions
-	 @speed Integer; @jump Boolean */
-	
-	_setSpeed: function (speed,jump){
-		if(typeof speed === "number") {
-			var ent = this.getEntity(),
-			    keys;
-			speed = Math.floor(speed);
-			this.set({'speed' : speed});
-			if(jump)
-			    ent._jumpSpeed = speed + speed/2;
-			if(ent._onUpStairs)
-			    speed = speed/2,
-			    keys = {
-				LEFT_ARROW: 135,
-				RIGHT_ARROW: 0,
-				A: 135,
-				D: 0,
-				Q: 135
-			    };
-			else 
-			if(ent._onDownStairs)
-			    speed = speed/2,
-			    keys = {
-				LEFT_ARROW: 180,
-				RIGHT_ARROW: 45,
-				A: 180,
-				D: 45,
-				Q: 180
-			    };
-			else
-			    keys = {
-				LEFT_ARROW: 180,
-				RIGHT_ARROW: 0,
-				A: 180,
-				D: 0,
-				Q: 180
-			    };
-			
-			ent.multiway(speed, keys);
-			
-		} else { 
-			return false;
-		}
 	},
 	
 	pullTrigger : function() { 
@@ -404,7 +411,7 @@ Carlos = BaseEntity.extend({
 			}
 		    })
 		    .shoot({ x: bullet._x + reach });
-		Crafty.trigger("PlayerShoot");
+		Crafty.trigger("PlayerShoot", .8);
 	},
 	
 	losingLife: function(){
@@ -422,7 +429,7 @@ Carlos = BaseEntity.extend({
 				Crafty.trigger("LevelTransition");
 			    })
 		    });
-		    
+		Crafty.audio.play("phantomrag", .8);
 	},
 	
 	carlosMockAnimation: function(){

@@ -25,7 +25,7 @@ Crafty.c("NightclubPhantom", {
 	},
 	 
 	attack: function(obj){
-		Crafty.audio.play("phantomrag");
+		Crafty.audio.play("phantomrag", .8);
 		var props,
 		// time
 		dur = Crafty.math.randomInt(0,750) + 750,

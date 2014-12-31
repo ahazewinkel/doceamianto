@@ -45,12 +45,12 @@ Crafty.scene("loading", function(obj) {
 		// build text_args string, if there are texts to load
 		_.each(gameContainer.getSceneElements(), function(ele, i){ 
 			// if element has not already been loded 
-			if(gameContainer.alreadyLoadedElements.indexOf(ele) === -1)
+			if (gameContainer.alreadyLoadedElements.indexOf(ele) === -1)
 				//search for texts, first things to load,
 				if (ele.indexOf("text!") !== -1) {
 					var tl = textElms.length;
 					textElms[tl] = ele;
-					if(text_args != ''){
+					if (text_args != '') {
 						text_args += ', ';
 						text_args += 'arg' + tl;
 					}

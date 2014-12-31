@@ -113,7 +113,7 @@ Crafty.c('Policeman', {
 	
 	pullTrigger: function() {
 		var bullet = Crafty.e("Bullet");
-		this.animate("Shooting", 1)
+		this.animate("Shooting", .8)
 		    .bind("FrameChange", function pulledTrigger(o) {
 			if (o.currentFrame === 2) {
 			      this._fire(bullet);

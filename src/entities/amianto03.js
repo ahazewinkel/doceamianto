@@ -126,7 +126,8 @@ Amianto03 = BaseEntity.extend({
 			if (x > maxRes.w || x < -1 || 
  			    y > maxRes.h || y < -1){
 				this.destroy();
-				Crafty.viewport.follow(Crafty("amianto03"), 0, 0);
+				if (Crafty.mobile)
+					Crafty.viewport.follow(Crafty("amianto03"), 0, 0);
 			    }
 			if (this.newly_created){
 				this.newly_created = false;				

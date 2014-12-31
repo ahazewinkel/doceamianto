@@ -35,7 +35,7 @@ Crafty.scene("level03", function() {
 	sc.emptyLimits = [
 		Crafty.e("2D, Canvas, Color").color("black").attr({ x: -80, y: -10, w: 80, h: 620, z: 400 }),
 		Crafty.e("2D, Canvas, Color").color("black").attr({ x: 0, y: -100, w: 800, h: 100, z: 400 }),
-		Crafty.e("2D, Canvas, Color").color("black").attr({ x: 800, y: -80, w: 80, h: 600, z: 400 }),
+		Crafty.e("2D, Canvas, Color").color("black").attr({ x: 800, y: -10, w: 80, h: 620, z: 400 }),
 		Crafty.e("2D, Canvas, Color").color("black").attr({ x: 0, y: 600, w: 800, h: 100, z: 400 })
 	];
 	
@@ -80,6 +80,8 @@ Crafty.scene("level03", function() {
 	// declaring events
 	
 	this.one("Tilt", function(){
+		if(infc.keys)
+			_.each(infc.keys,function(k){ k.visible = false; });
 		Crafty.audio.stop("theme03");
 		Crafty.audio.play("tilt");
 	
@@ -110,8 +112,7 @@ Crafty.scene("level03", function() {
 			} catch(e) {
 				console.log(e);
 			}
-			//glitchOptions.seed += 5;
-		}, 350, 5, function(){
+		}, 350, 6, function(){
 			this.delay(function(){ Crafty.trigger("LevelTransition"); }, 3000);
 		});
 	});

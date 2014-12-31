@@ -48,7 +48,7 @@ Crafty.scene("level01", function() {
 	    };
 	
 	// Play theme
-	Crafty.audio.play("theme01", -1, 0.1, 63.2);
+	Crafty.audio.play("theme01", -1, 1, 63.2);
 			
 	sc.player = new Amianto01(),
 	sc.hearts = [],
@@ -85,6 +85,8 @@ Crafty.scene("level01", function() {
 	// Amianto get max number of RedHearts
 	this.one('TooMuchLove', function() {
 		Crafty.audio.stop("theme01");
+		if(infc.keys)
+			_.each(infc.keys,function(k){ k.visible = false; });
 		sc.delays.cancelDelay(heartComing);
 		_.each(sc.hearts, function(heart){					// destroy all hearts
 			heart.remove();
@@ -110,7 +112,7 @@ Crafty.scene("level01", function() {
 				Crafty.background("#000000"); 					// set background to black
 				sc.bckgrndFade.attr({ alpha: 0.0, z:1000 }); // make bckgrndFade transparent and put it above other entities
 			    }, 10700, 0, function() {
-				this.delay(function() { 
+				this.delay(function() {
 					sc.bckgrndFade
 						.tween({ alpha: 1.0 }, 1000) // tween bckgrndFade making it cover everything
 						.one("TweenEnd", function() {

@@ -18,7 +18,7 @@ Obstacle = BaseEntity.extend({
 					  wasMoved:  false
 				});
 		entity
-			.collision(new Crafty.polygon([[0,6],[73,6],[73,126],[0,126]]))
+			.collision(new Crafty.polygon([0,6,73,6,73,126,0,126]))
 			.onHit('water', function(hit) { 
 				if(this._falling){
 					this.antigravity();

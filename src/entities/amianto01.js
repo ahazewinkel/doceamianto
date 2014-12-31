@@ -17,7 +17,7 @@ Amianto01 = BaseEntity.extend({
 		entity
 			.attr({x: POSX, y: POSY, z: POSZ, w:WIDTH, h:HEIGHT })
 			.multiwayer(SPEED, {RIGHT_ARROW: 0, LEFT_ARROW: 180}, ['RIGHT_ARROW','LEFT_ARROW'])
-			.collision(new Crafty.polygon([[33,25], [WIDTH-33,25], [WIDTH-33,(HEIGHT-25)/2], [WIDTH-63,HEIGHT-25], [33, (HEIGHT-25)/2]]))
+			.collision(new Crafty.polygon([33,25, WIDTH-33,25, WIDTH-33,(HEIGHT-25)/2, WIDTH-63,HEIGHT-25, 33, (HEIGHT-25)/2]))
 			.onHit('Delimiter', function(hit) {
 				for (var i = 0; i < hit.length; i++) {
 					var hitDirX = Math.round(hit[i].normal.x);
@@ -37,7 +37,7 @@ Amianto01 = BaseEntity.extend({
 					if(hit[i].obj._z == this._z) {
 						var luv = model.get('love');
 						if(hit[i].obj.__c.darkHeart) {
-							Crafty.audio.play("hitdarkheart");
+							Crafty.audio.play("hitdarkheart", .8);
 							if(luv>model.get('minLove'))
 								model.set({ 'love' : luv-1 });
 							hit[i].obj.destroy();
@@ -57,7 +57,7 @@ Amianto01 = BaseEntity.extend({
 							model._stopMoving();
 							entity
 								.disableControl()
-								.animate("AmiantoHittingRedHeart")
+								.animate("AmiantoHittingRedHeart", .8)
 								.one('AnimationEnd', function() { 
 									if(model.get('love') < model.get('maxLove')) {
 										model.startMoving();

@@ -168,6 +168,10 @@
                 {
                  "components":"grnd, Collision"
                 },
+             "265":
+                {
+                 "components":"stairs"
+                },
              "266":
                 {
                  "components":"stairs, upStairs, Collision"
@@ -187,6 +191,10 @@
              "27":
                 {
                  "components":"grnd, Collision"
+                },
+             "270":
+                {
+                 "components":"stairs"
                 },
              "274":
                 {
@@ -227,6 +235,10 @@
              "287":
                 {
                  "components":"grnd, Collision"
+                },
+             "288":
+                {
+                 "":""
                 },
              "289":
                 {
