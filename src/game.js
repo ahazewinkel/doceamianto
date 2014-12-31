@@ -1,5 +1,5 @@
 gameContainer = {
-	env : 'pro',
+	env : 'dev',
 	gameVersion : '1.0.1',
 	conf: {},
 	lang: '',

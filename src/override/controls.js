@@ -537,8 +537,8 @@ Crafty.extend({
 
         if (e.type === "keydown") {
             if (Crafty.keydown[e.key] !== true) {
-                Crafty.trigger("KeyDown", e);
                 Crafty.keydown[e.key] = true;
+                Crafty.trigger("KeyDown", e);
             }
         } else if (e.type === "keyup") {
                 Crafty.trigger("KeyUp", e);
