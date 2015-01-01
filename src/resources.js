@@ -48,10 +48,7 @@ Resources = Backbone.Model.extend({
 				}
 			},
 			'audio' : {
-				'diamondshine' : [
-				      'startdiamondshine.ogg',
-				      'startdiamondshine.aac'
-				]
+				'diamondshine' : ['startdiamondshine.aac']
 			}
 		},
 		
@@ -95,24 +92,13 @@ Resources = Backbone.Model.extend({
 			},
 			'audio' : {
 				'theme01' : 
-					['theme01.ogg',
-					  'theme01.aac'
-					],
+					['theme01.aac'],
 				'hitredheart' : 
-					['hitredheart.aac',
-					  'hitredheart.ogg',
-					  'hitredheart.mp3' 
-					],
+					['hitredheart.aac'],
 				'hitdarkheart' : 
-					['hitdarkheart.aac',
-					  'hitdarkheart.ogg',
-					  'hitdarkheart.mp3'
-					],
+					['hitdarkheart.aac'],
 				'fall' : 
-					['fall01.aac',
-					  'fall01.ogg',
-					  'fall01.mp3'
-					]
+					['fall01.aac']
 			}
 		},
 		level02: {
@@ -158,17 +144,11 @@ Resources = Backbone.Model.extend({
 			'images' : ['tileset-level02.png'],
 			'audio' : {
 				'theme02' : 
-					['theme02.ogg',
-					  'theme02.aac'
-					],
+					['theme02.aac'],
 				'diamondgrow' :
-					['diamondgrow.ogg',
-					  'diamondgrow.mp3',
-					],
+					['diamondgrow.aac'],
 				'ohthelight' : 
-					['ohthelight.ogg',
-					  'ohthelight.mp3'
-					]
+					['ohthelight.aac']
 			}
 		},
 		level03: {
@@ -202,17 +182,11 @@ Resources = Backbone.Model.extend({
 				'level03-ornament.png'],
 			'audio' : {
 				'theme03' : 
-				      ['theme03.ogg',
-					'theme03.aac'
-				      ],
-				'wordfit' : ['wordfit.ogg',
-				      'wordfit.aac',
-				      'wordfit.mp3'
-				],
-				'tilt' : ['tilt.ogg',
-				      'tilt.aac',
-				      'tilt.mp3'
-				]
+				      ['theme03.aac'],
+				'wordfit' : 
+				      ['wordfit.aac'],
+				'tilt' : 
+				      ['tilt.aac']
 			}
 		},
 		level04: {
@@ -321,28 +295,15 @@ Resources = Backbone.Model.extend({
 			],
 			'audio' : {
 				'theme04' : 
-				      ['theme04.ogg',
-					'theme04.aac'
-				      ],
+				      ['theme04.aac'],
 				'rifleshot' : 
-				      ['rifleshot.ogg',
-					'rifleshot.aac',
-					'rifleshot.mp3',
-				      ],
+				      ['rifleshot.aac'],
 				'pistolshot' : 
-				      ['pistolshot.ogg',
-					'pistolshot.aac',
-					'pistolshot.mp3',
-				      ],
+				      ['pistolshot.aac'],
 				'phantomboss':
-				      ['phantomboss.ogg',
-					'phantomboss.aac'
-				      ],
+				      ['phantomboss.aac'],
 				'phantomrag':
-				      ['phantomrag.ogg',
-					'phantomrag.aac',
-					'phantomrag.mp3',
-				      ]
+				      ['phantomrag.aac']
 			}
 		},
 		level05: {
@@ -371,20 +332,9 @@ Resources = Backbone.Model.extend({
 			},
 			'images': ["tileset-level05.png"],
 			'audio' : {
-				'theme05': [
-					'theme05.ogg',
-					'theme05.aac'
-				],
-				'shiwsish': [
-					'shiwsish.ogg',
-					'shiwsish.aac',
-					'shiwsish.mp3'
-				],
-				'phantomrag': [
-					'phantomrag.ogg',
-					'phantomrag.aac',
-					'phantomrag.mp3',
-				]
+				'theme05': ['theme05.aac'],
+				'shiwsish': ['shiwsish.aac'],
+				'phantomrag': ['phantomrag.aac']
 			}
 		},
 		level06: {
@@ -466,50 +416,15 @@ Resources = Backbone.Model.extend({
 				"sheet_red_numbers.png"
 			],
 			'audio' : {
-				'theme06': [
-					'theme06.ogg',
-					'theme06.aac'
-				],
-				'hitredheart': [
-					'hitredheart.ogg',
-					'hitredheart.aac',
-					'hitredheart.mp3'
-				],
-				'hitdarkheart': [
-					'hitdarkheart.ogg',
-					'hitdarkheart.aac',
-					'hitdarkheart.mp3'
-				],
-				'phantomrag': [
-					'phantomrag.ogg',
-					'phantomrag.aac',
-					'phantomrag.mp3',
-				],
-				'kiss0': [
-					'kiss0.ogg',
-					'kiss0.aac',
-					'kiss0.mp3',
-				],
-				'kiss1': [
-					'kiss1.ogg',
-					'kiss1.aac',
-					'kiss1.mp3',
-				],
-				'kiss2': [
-					'kiss2.ogg',
-					'kiss2.aac',
-					'kiss2.mp3',
-				],
-				'credits': [
-					'credits.ogg',
-					'credits.aac',
-					'credits.mp3',
-				],
-				'creditsfireworks': [
-					'creditsfireworks.ogg',
-					'creditsfireworks.aac',
-					'creditsfireworks.mp3',
-				]
+				'theme06': ['theme06.aac'],
+				'hitredheart': ['hitredheart.aac'],
+				'hitdarkheart': ['hitdarkheart.aac'],
+				'phantomrag': ['phantomrag.aac'],
+				'kiss0': ['kiss0.aac'],
+				'kiss1': ['kiss1.aac'],
+				'kiss2': ['kiss2.aac'],
+				'credits': ['credits.aac'],
+				'creditsfireworks': ['creditsfireworks.aac']
 			}
 		}
 	},
